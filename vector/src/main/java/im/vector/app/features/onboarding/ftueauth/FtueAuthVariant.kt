@@ -403,4 +403,5 @@ class FtueAuthVariant(
         // TODO go to the real profile picture fragment
         navigateToHome(createdAccount = true)
     }
+
 }
