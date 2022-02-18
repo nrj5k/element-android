@@ -47,7 +47,6 @@ import im.vector.app.features.login.ReAuthHelper
 import im.vector.app.features.login.ServerType
 import im.vector.app.features.login.SignMode
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.MatrixPatterns.getDomain
 import org.matrix.android.sdk.api.auth.AuthenticationService
@@ -152,9 +151,7 @@ class OnboardingViewModel @AssistedInject constructor(
             is OnboardingAction.UpdateDisplayName          -> updateDisplayName(action.displayName)
             OnboardingAction.UpdateDisplayNameSkipped      -> _viewEvents.post(OnboardingViewEvents.OnDisplayNameSkipped)
             OnboardingAction.UpdateProfilePictureSkipped   -> _viewEvents.post(OnboardingViewEvents.OnPersonalizationComplete)
-            is OnboardingAction.ProfilePictureSelected     -> setState {
-                copy(personalizationState = personalizationState.copy(selectedPictureUri = action.uri))
-            }
+            is OnboardingAction.ProfilePictureSelected     -> handleProfilePictureSelected(action)
             OnboardingAction.SaveSelectedProfilePicture    -> updateProfilePicture()
 
         }.exhaustive
@@ -913,13 +910,16 @@ class OnboardingViewModel @AssistedInject constructor(
         }
     }
 
+    private fun handleProfilePictureSelected(action: OnboardingAction.ProfilePictureSelected) {
+        setState {
+            copy(personalizationState = personalizationState.copy(selectedPictureUri = action.uri))
+        }
+    }
+
     private fun updateProfilePicture() {
         withState { state ->
-
             when (val pictureUri = state.personalizationState.selectedPictureUri) {
-                null -> {
-                    _viewEvents.post(OnboardingViewEvents.Failure(NullPointerException("picture uri is missing from state")))
-                }
+                null -> _viewEvents.post(OnboardingViewEvents.Failure(NullPointerException("picture uri is missing from state")))
                 else -> {
                     setState { copy(asyncProfilePicture = Loading()) }
                     viewModelScope.launch {
