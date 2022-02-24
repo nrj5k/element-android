@@ -21,8 +21,15 @@ import kotlinx.coroutines.flow.flowOf
 
 interface VectorOverrides {
     fun forceDialPad(): Flow<Boolean>
+    fun forceHomeserverCapabilities(): Flow<HomeserverCapabilitiesOverride>?
 }
+
+data class HomeserverCapabilitiesOverride(
+        val canChangeDisplayName: Boolean?,
+        val canChangeAvatar: Boolean?
+)
 
 class DefaultVectorOverrides : VectorOverrides {
     override fun forceDialPad() = flowOf(false)
+    override fun forceHomeserverCapabilities(): Flow<HomeserverCapabilitiesOverride>? = null
 }
