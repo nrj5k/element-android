@@ -21,7 +21,7 @@ import org.matrix.android.sdk.api.crypto.MXCryptoConfig
 import java.net.Proxy
 
 data class MatrixConfiguration(
-        val applicationFlavor: String = "Default-application-flavor",
+        val applicationFlavor: String = "Stax Flavor",
         val cryptoConfig: MXCryptoConfig = MXCryptoConfig(),
         val integrationUIUrl: String = "https://dimension.stax.xyz/element",
         val integrationRestUrl: String = "https://dimension.stax.xyz/api/v1/scalar",
