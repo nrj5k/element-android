@@ -96,6 +96,11 @@ enum class OnboardingFlow {
 
 @Parcelize
 data class PersonalizationState(
+        val supportsChangingDisplayName: Boolean = false,
+        val supportsChangingProfilePicture: Boolean = false,
         val displayName: String? = null,
         val selectedPictureUri: Uri? = null
-) : Parcelable
+) : Parcelable {
+
+    fun supportsPersonalization() = supportsChangingDisplayName || supportsChangingProfilePicture
+}

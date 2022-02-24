@@ -37,6 +37,7 @@ import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.utils.ensureTrailingSlash
 import im.vector.app.features.VectorFeatures
+import im.vector.app.features.VectorOverrides
 import im.vector.app.features.analytics.AnalyticsTracker
 import im.vector.app.features.analytics.extensions.toTrackingValue
 import im.vector.app.features.analytics.plan.UserProperties
@@ -47,6 +48,7 @@ import im.vector.app.features.login.ReAuthHelper
 import im.vector.app.features.login.ServerType
 import im.vector.app.features.login.SignMode
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.MatrixPatterns.getDomain
 import org.matrix.android.sdk.api.auth.AuthenticationService
@@ -79,6 +81,7 @@ class OnboardingViewModel @AssistedInject constructor(
         private val stringProvider: StringProvider,
         private val homeServerHistoryService: HomeServerHistoryService,
         private val vectorFeatures: VectorFeatures,
+        private val vectorOverrides: VectorOverrides,
         private val analyticsTracker: AnalyticsTracker,
         private val uriFilenameResolver: UriFilenameResolver,
 ) : VectorViewModel<OnboardingViewState, OnboardingAction, OnboardingViewEvents>(initialState) {
@@ -753,15 +756,24 @@ class OnboardingViewModel @AssistedInject constructor(
 
         authenticationService.reset()
         session.configureAndStart(applicationContext)
-        setState {
-            copy(
-                    asyncLoginAction = Success(Unit)
-            )
-        }
 
         when (isAccountCreated) {
-            true  -> _viewEvents.post(OnboardingViewEvents.OnAccountCreated)
-            false -> _viewEvents.post(OnboardingViewEvents.OnAccountSignedIn)
+            true  -> {
+                val homeServerCapabilities = session.getHomeServerCapabilities()
+                val capabilityOverrides = vectorOverrides.forceHomeserverCapabilities()?.firstOrNull()
+                val personalizationState = state.personalizationState.copy(
+                        supportsChangingDisplayName = capabilityOverrides?.canChangeDisplayName ?: homeServerCapabilities.canChangeDisplayName,
+                        supportsChangingProfilePicture = capabilityOverrides?.canChangeAvatar ?: homeServerCapabilities.canChangeAvatar
+                )
+                setState {
+                    copy(asyncLoginAction = Success(Unit), personalizationState = personalizationState)
+                }
+                _viewEvents.post(OnboardingViewEvents.OnAccountCreated)
+            }
+            false -> {
+                setState { copy(asyncLoginAction = Success(Unit)) }
+                _viewEvents.post(OnboardingViewEvents.OnAccountSignedIn)
+            }
         }
     }
 
