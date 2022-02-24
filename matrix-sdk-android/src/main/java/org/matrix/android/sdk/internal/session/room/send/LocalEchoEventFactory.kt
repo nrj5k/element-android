@@ -136,20 +136,15 @@ internal class LocalEchoEventFactory @Inject constructor(
     private fun createPollContent(question: String,
                                   options: List<String>,
                                   pollType: PollType): MessagePollContent {
-        return MessagePollContent(
-                pollCreationInfo = PollCreationInfo(
-                        question = PollQuestion(
-                                question = question
-                        ),
-                        kind = pollType,
-                        answers = options.map { option ->
-                            PollAnswer(
-                                    id = UUID.randomUUID().toString(),
-                                    answer = option
-                            )
-                        }
-                )
-        )
+        return MessagePollContent().apply {
+            pollCreationInfo = PollCreationInfo(
+                    question = PollQuestion().apply { this.question = question },
+                    kind = pollType,
+                    answers = options.map { option ->
+                        PollAnswer(id = UUID.randomUUID().toString()).apply { answer = option }
+                    }
+            )
+        }
     }
 
     fun createPollReplaceEvent(roomId: String,
@@ -167,7 +162,7 @@ internal class LocalEchoEventFactory @Inject constructor(
                 originServerTs = dummyOriginServerTs(),
                 senderId = userId,
                 eventId = localId,
-                type = EventType.POLL_START,
+                type = EventType.POLL_START.first(),
                 content = newContent.toContent()
         )
     }
@@ -179,19 +174,17 @@ internal class LocalEchoEventFactory @Inject constructor(
                 body = answerId,
                 relatesTo = RelationDefaultContent(
                         type = RelationType.REFERENCE,
-                        eventId = pollEventId),
-                response = PollResponse(
-                        answers = listOf(answerId)
-                )
-
-        )
+                        eventId = pollEventId)
+        ).apply {
+            response = PollResponse(answers = listOf(answerId))
+        }
         val localId = LocalEcho.createLocalEchoId()
         return Event(
                 roomId = roomId,
                 originServerTs = dummyOriginServerTs(),
                 senderId = userId,
                 eventId = localId,
-                type = EventType.POLL_RESPONSE,
+                type = EventType.POLL_RESPONSE.first(),
                 content = content.toContent(),
                 unsignedData = UnsignedData(age = null, transactionId = localId))
     }
@@ -207,7 +200,7 @@ internal class LocalEchoEventFactory @Inject constructor(
                 originServerTs = dummyOriginServerTs(),
                 senderId = userId,
                 eventId = localId,
-                type = EventType.POLL_START,
+                type = EventType.POLL_START.first(),
                 content = content.toContent(),
                 unsignedData = UnsignedData(age = null, transactionId = localId))
     }
@@ -226,7 +219,7 @@ internal class LocalEchoEventFactory @Inject constructor(
                 originServerTs = dummyOriginServerTs(),
                 senderId = userId,
                 eventId = localId,
-                type = EventType.POLL_END,
+                type = EventType.POLL_END.first(),
                 content = content.toContent(),
                 unsignedData = UnsignedData(age = null, transactionId = localId))
     }
@@ -236,19 +229,12 @@ internal class LocalEchoEventFactory @Inject constructor(
                             longitude: Double,
                             uncertainty: Double?): Event {
         val geoUri = buildGeoUri(latitude, longitude, uncertainty)
-        val content = MessageLocationContent(
-                geoUri = geoUri,
-                body = geoUri,
-                locationInfo = LocationInfo(
-                        geoUri = geoUri,
-                        description = geoUri
-                ),
-                locationAsset = LocationAsset(
-                        type = LocationAssetType.SELF
-                ),
-                ts = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()),
-                text = geoUri
-        )
+        val content = MessageLocationContent(geoUri = geoUri, body = geoUri).apply {
+            locationInfo = LocationInfo(geoUri = geoUri, description = geoUri)
+            locationAsset = LocationAsset(type = LocationAssetType.SELF)
+            ts = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
+            text = geoUri
+        }
         return createMessageEvent(roomId, content)
     }
 

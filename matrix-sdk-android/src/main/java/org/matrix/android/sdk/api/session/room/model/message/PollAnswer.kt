@@ -21,6 +21,17 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PollAnswer(
-        @Json(name = "id") val id: String? = null,
-        @Json(name = "org.matrix.msc1767.text") val answer: String? = null
-)
+        @Json(name = "id") val id: String? = null
+) {
+
+    @Json(name = "org.matrix.msc1767.text") var unstableAnswer: String? = null
+    @Json(name = "m.text") var stableAnswer: String? = null
+
+    @Transient
+    var answer: String? = null
+    get() = stableAnswer ?: unstableAnswer
+    set(value) {
+        field = value
+        unstableAnswer = value
+    }
+}

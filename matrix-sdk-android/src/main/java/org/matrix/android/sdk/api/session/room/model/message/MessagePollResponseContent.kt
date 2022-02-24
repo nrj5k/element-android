@@ -30,6 +30,17 @@ data class MessagePollResponseContent(
         override val msgType: String = MessageType.MSGTYPE_POLL_RESPONSE,
         @Json(name = "body") override val body: String = "",
         @Json(name = "m.relates_to") override val relatesTo: RelationDefaultContent? = null,
-        @Json(name = "m.new_content") override val newContent: Content? = null,
-        @Json(name = "org.matrix.msc3381.poll.response") val response: PollResponse? = null
-) : MessageContent
+        @Json(name = "m.new_content") override val newContent: Content? = null
+) : MessageContent {
+
+    @Json(name = "org.matrix.msc3381.poll.response") var unstableResponse: PollResponse? = null
+    @Json(name = "m.response") var stableResponse: PollResponse? = null
+
+    @Transient
+    var response: PollResponse? = null
+    get() = stableResponse ?: unstableResponse
+    set(value) {
+        field = value
+        unstableResponse = value
+    }
+}

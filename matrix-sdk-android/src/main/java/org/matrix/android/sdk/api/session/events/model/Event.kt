@@ -349,7 +349,7 @@ fun Event.isAttachmentMessage(): Boolean {
             }
 }
 
-fun Event.isPoll(): Boolean = getClearType() == EventType.POLL_START || getClearType() == EventType.POLL_END
+fun Event.isPoll(): Boolean = getClearType() in EventType.POLL_START || getClearType() in EventType.POLL_END
 
 fun Event.isSticker(): Boolean = getClearType() == EventType.STICKER
 
