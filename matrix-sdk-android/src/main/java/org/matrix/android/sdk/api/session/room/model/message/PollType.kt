@@ -27,9 +27,15 @@ enum class PollType {
     @Json(name = "org.matrix.msc3381.poll.disclosed")
     DISCLOSED,
 
+    @Json(name = "m.poll.disclosed")
+    DISCLOSED_STABLE,
+
     /**
      * Results should be only revealed when the poll is ended.
      */
     @Json(name = "org.matrix.msc3381.poll.undisclosed")
-    UNDISCLOSED
+    UNDISCLOSED,
+
+    @Json(name = "m.poll.undisclosed")
+    UNDISCLOSED_STABLE
 }
