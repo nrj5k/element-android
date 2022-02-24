@@ -26,7 +26,8 @@ data class MatrixConfiguration(
         val integrationUIUrl: String = "https://dimension.stax.xyz/element",
         val integrationRestUrl: String = "https://dimension.stax.xyz/api/v1/scalar",
         val integrationWidgetUrls: List<String> = listOf(
-                "https://dimension.stax.xyz/widgets"
+                "https://dimension.stax.xyz/widgets",
+                "https://dimension.stax.xyz/widgets/jitsi"
         ),
         /**
          * Optional base url to create client permalinks (eg. https://www.example.com/#/) instead of Matrix ones (matrix.to links).
