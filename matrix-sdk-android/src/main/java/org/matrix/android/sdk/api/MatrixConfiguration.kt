@@ -23,14 +23,10 @@ import java.net.Proxy
 data class MatrixConfiguration(
         val applicationFlavor: String = "Default-application-flavor",
         val cryptoConfig: MXCryptoConfig = MXCryptoConfig(),
-        val integrationUIUrl: String = "https://scalar.vector.im/",
-        val integrationRestUrl: String = "https://scalar.vector.im/api",
+        val integrationUIUrl: String = "https://dimension.stax.xyz/element",
+        val integrationRestUrl: String = "https://dimension.stax.xyz/api/v1/scalar",
         val integrationWidgetUrls: List<String> = listOf(
-                "https://scalar.vector.im/_matrix/integrations/v1",
-                "https://scalar.vector.im/api",
-                "https://scalar-staging.vector.im/_matrix/integrations/v1",
-                "https://scalar-staging.vector.im/api",
-                "https://scalar-staging.riot.im/scalar/api"
+                "https://dimension.stax.xyz/widgets"
         ),
         /**
          * Optional base url to create client permalinks (eg. https://www.example.com/#/) instead of Matrix ones (matrix.to links).
