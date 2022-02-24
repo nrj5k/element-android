@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 New Vector Ltd
+ * Copyright (c) 2022 New Vector Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,34 +14,33 @@
  * limitations under the License.
  */
 
-package im.vector.app.features.settings
+package im.vector.app.features.debug.features
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import im.vector.app.features.VectorOverrides
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
+import org.matrix.android.sdk.api.extensions.orFalse
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "vector_settings")
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "vector_overrides")
+private val forceDialPadDisplay = booleanPreferencesKey("force_dial_pad_display")
 
-class VectorDataStore @Inject constructor(
-        private val context: Context
-) {
+class DebugVectorOverrides(private val context: Context) : VectorOverrides {
 
-    private val pushCounter = intPreferencesKey("push_counter")
+    override fun forceDialPad() = forceDialPadDisplayFlow
 
-    val pushCounterFlow: Flow<Int> = context.dataStore.data.map { preferences ->
-        preferences[pushCounter] ?: 0
+    suspend fun setForceDialPadDisplay(force: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[forceDialPadDisplay] = force
+        }
     }
 
-    suspend fun incrementPushCounter() {
-        context.dataStore.edit { settings ->
-            val currentCounterValue = settings[pushCounter] ?: 0
-            settings[pushCounter] = currentCounterValue + 1
-        }
+    private val forceDialPadDisplayFlow: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[forceDialPadDisplay].orFalse()
     }
 }
