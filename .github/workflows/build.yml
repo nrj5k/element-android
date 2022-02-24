@@ -40,7 +40,7 @@ jobs:
             vector/build/outputs/apk/*/debug/*.apk
 
   release:
-    name: Build unsigned GPlay APKs
+    name: Build unsigned Fdroid APKs
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
@@ -53,12 +53,12 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Assemble GPlay unsigned apk
-        run: ./gradlew clean assembleGplayRelease $CI_GRADLE_ARG_PROPERTIES  --stacktrace
-      - name: Upload Gplay unsigned APKs
+      - name: Assemble Fdroid unsigned apk
+        run: ./gradlew clean assembleFdroidRelease $CI_GRADLE_ARG_PROPERTIES  --stacktrace
+      - name: Upload Fdroid unsigned APKs
         uses: actions/upload-artifact@v2
         with:
-          name: vector-gplay-release-unsigned
+          name: stax-chat-fdroid-release-unsigned
           path: |
             vector/build/outputs/apk/*/release/*.apk
 
