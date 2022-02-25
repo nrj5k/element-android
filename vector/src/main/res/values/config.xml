@@ -4,7 +4,7 @@
     <!-- "app_name" is now defined in build.gradle -->
 
     <!-- server urls -->
-    <string name="matrix_org_server_url" translatable="false">https://matrix.org</string>
+    <string name="matrix_org_server_url" translatable="false">https://stax.xyz</string>
 
     <!-- Rageshake configuration -->
     <string name="bug_report_url" translatable="false">https://riot.im/bugreports/submit</string>
@@ -17,9 +17,9 @@
      -->
 
     <!-- Note: pusher_http_url should have path '/_matrix/push/v1/notify' -->
-    <string name="pusher_http_url" translatable="false">https://matrix.org/_matrix/push/v1/notify</string>
+    <string name="pusher_http_url" translatable="false">https://stax.xyz/_matrix/push/v1/notify</string>
     <!-- Note: pusher_app_id cannot exceed 64 chars -->
-    <string name="pusher_app_id" translatable="false">im.vector.app.android</string>
+    <string name="pusher_app_id" translatable="false">xyz.stax.chat.android</string>
 
     <!-- preferred jitsi domain -->
     <string name="preferred_jitsi_domain" translatable="false">meet.element.io</string>
@@ -32,8 +32,9 @@
     <!-- Permalink config -->
     <string-array name="permalink_supported_hosts" translatable="false">
         <!-- Regular Element Web instance -->
-        <item>app.element.io</item>
+        <item>chat.stax.xyz</item>
         <!-- Other known instances of Element Web -->
+        <item>app.element.io</item>
         <item>develop.element.io</item>
         <item>staging.element.io</item>
         <!-- Previous Web instance, kept for compatibility reason -->
