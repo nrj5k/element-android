@@ -143,8 +143,7 @@ android {
         buildConfigField "String", "BUILD_NUMBER", "\"${buildNumber}\""
         resValue "string", "build_number", "\"${buildNumber}\""
 
-        buildConfigField "xyz.stax.chat
-        .features.VectorFeatures.OnboardingVariant", "ONBOARDING_VARIANT", "xyz.stax.chat.features.VectorFeatures.OnboardingVariant.FTUE_AUTH"
+        buildConfigField "xyz.stax.chat.features.VectorFeatures.OnboardingVariant", "ONBOARDING_VARIANT", "xyz.stax.chat.features.VectorFeatures.OnboardingVariant.FTUE_AUTH"
 
         buildConfigField "xyz.stax.chat.features.crypto.keysrequest.OutboundSessionKeySharingStrategy", "outboundSessionKeySharingStrategy", "xyz.stax.chat.features.crypto.keysrequest.OutboundSessionKeySharingStrategy.WhenTyping"
 
