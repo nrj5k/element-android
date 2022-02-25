@@ -143,9 +143,9 @@ android {
         buildConfigField "String", "BUILD_NUMBER", "\"${buildNumber}\""
         resValue "string", "build_number", "\"${buildNumber}\""
 
-        buildConfigField "xyz.stax.chat.features.VectorFeatures.OnboardingVariant", "ONBOARDING_VARIANT", "xyz.stax.chat.features.VectorFeatures.OnboardingVariant.FTUE_AUTH"
+        buildConfigField "im.vector.app.features.VectorFeatures.OnboardingVariant", "ONBOARDING_VARIANT", "im.vector.app.features.VectorFeatures.OnboardingVariant.FTUE_AUTH"
 
-        buildConfigField "xyz.stax.chat.features.crypto.keysrequest.OutboundSessionKeySharingStrategy", "outboundSessionKeySharingStrategy", "xyz.stax.chat.features.crypto.keysrequest.OutboundSessionKeySharingStrategy.WhenTyping"
+        buildConfigField "im.vector.app.features.crypto.keysrequest.OutboundSessionKeySharingStrategy", "outboundSessionKeySharingStrategy", "im.vector.app.features.crypto.keysrequest.OutboundSessionKeySharingStrategy.WhenTyping"
 
         buildConfigField "Long", "VOICE_MESSAGE_DURATION_LIMIT_MS", "120_000L"
 
@@ -180,7 +180,7 @@ android {
                 reset()
 
                 // Specifies a list of ABIs that Gradle should create APKs for.
-                include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+                include "armeabi-v7a", "arm64-v8a"
 
                 // Generate a universal APK that includes all ABIs, so user who install from CI tool can use this one by default.
                 universalApk true
