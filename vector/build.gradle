@@ -115,7 +115,7 @@ android {
     compileSdk versions.compileSdk
 
     defaultConfig {
-        applicationId "im.vector.app"
+        applicationId "xyz.stax.chat"
         // Set to API 21: see #405
         minSdk versions.minSdk
         targetSdk versions.targetSdk
@@ -143,9 +143,10 @@ android {
         buildConfigField "String", "BUILD_NUMBER", "\"${buildNumber}\""
         resValue "string", "build_number", "\"${buildNumber}\""
 
-        buildConfigField "im.vector.app.features.VectorFeatures.OnboardingVariant", "ONBOARDING_VARIANT", "im.vector.app.features.VectorFeatures.OnboardingVariant.FTUE_AUTH"
+        buildConfigField "xyz.stax.chat
+        .features.VectorFeatures.OnboardingVariant", "ONBOARDING_VARIANT", "xyz.stax.chat.features.VectorFeatures.OnboardingVariant.FTUE_AUTH"
 
-        buildConfigField "im.vector.app.features.crypto.keysrequest.OutboundSessionKeySharingStrategy", "outboundSessionKeySharingStrategy", "im.vector.app.features.crypto.keysrequest.OutboundSessionKeySharingStrategy.WhenTyping"
+        buildConfigField "xyz.stax.chat.features.crypto.keysrequest.OutboundSessionKeySharingStrategy", "outboundSessionKeySharingStrategy", "xyz.stax.chat.features.crypto.keysrequest.OutboundSessionKeySharingStrategy.WhenTyping"
 
         buildConfigField "Long", "VOICE_MESSAGE_DURATION_LIMIT_MS", "120_000L"
 
